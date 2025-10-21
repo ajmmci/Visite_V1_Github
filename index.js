@@ -41,12 +41,6 @@ function closePopupMS() {
 
 // Mise à jour du prix
 // Tableau des prix de base selon le type de demande
-const prices = {
-  "gestionouverte": 300,       // Gestion ouverte
-  "300": 300,     // Calculateur MS42/MS43
-  "150": 150,     // Diagnostic
-  "autre": 0      // Autre
-};
 
 // Fonction principale
 function updatePrice() {
@@ -107,4 +101,5 @@ function handleForm(event) {
         alert("Erreur lors de l'envoi du formulaire.");
     });
 }
+
 

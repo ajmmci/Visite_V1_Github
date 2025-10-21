@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
       description: document.getElementById("description").value
     };
 
-    emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID", data)
+    emailjs.send(service_bsoe5lw,template_y1s1oe6, data)
       .then(() => {
         closePopup();
         document.getElementById("confirmationPopup").style.display = "flex";
@@ -71,3 +71,4 @@ document.addEventListener("DOMContentLoaded", function() {
       .catch(() => { alert("Erreur lors de l'envoi du formulaire."); });
   });
 });
+

@@ -32,32 +32,92 @@ function openPopup(){document.getElementById("popupForm").style.display="flex";}
 function closePopup(){document.getElementById("popupForm").style.display="none";document.getElementById("confirmationPopup").style.display="none";}
 
 // Prix
+document.addEventListener("DOMContentLoaded", function() {
+  updatePrice(); // initialise le prix au chargement
 
-  function updatePrice(){
-    const requestType=document.getElementById("requestType").value;
-    const rentBench=document.getElementById("rentBench")?.checked;
-    let price=parseInt(requestType)||0;
-    if(rentBench) price+=250;
-    document.getElementById("estimatedPrice").textContent=`Prix estimatif : ${price}€`;
+  // Gestionnaire pour select et checkbox
+  document.getElementById("requestType").addEventListener("change", updatePrice);
+  document.getElementById("rentBench").addEventListener("change", updatePrice);
+});
 
+function updatePrice() {
+  const requestType = document.getElementById("requestType").value;
+  const rentBench = document.getElementById("rentBench").checked;
+  const estimatedPriceEl = document.getElementById("estimatedPrice");
+  const gestionSection = document.getElementById("gestionOuverteOptions");
 
-  
-// Formulaire
-function handleForm(event){
-    event.preventDefault();
-    const firstname=document.getElementById("firstname").value;
-    const lastname=document.getElementById("lastname").value;
-    const email=document.getElementById("email").value;
-    const brand=document.getElementById("brand").value;
-    const model=document.getElementById("model").value;
-    const requestType=document.getElementById("requestType").selectedOptions[0].text;
-    const description=document.getElementById("description").value;
+  // Cas aucun choix
+  if (!requestType) {
+    gestionSection.style.display = "none";
+    estimatedPriceEl.textContent = "Prix estimatif : --";
+    return;
+  }
 
-    emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{firstname,lastname,email,brand,model,requestType,description})
-    .then(()=>{closePopup();document.getElementById("confirmationPopup").style.display="flex";})
-    .catch(()=>{alert("Erreur lors de l'envoi du formulaire.");});
+  let basePrice = 0;
+
+  switch (requestType) {
+    case "gestionOuverte":
+      basePrice = 300;
+      gestionSection.style.display = "block"; // affiche la section
+      break;
+    case "300":
+      basePrice = 300;
+      gestionSection.style.display = "none";
+      break;
+    case "150":
+      basePrice = 150;
+      gestionSection.style.display = "none";
+      break;
+    case "autre":
+      basePrice = 0;
+      gestionSection.style.display = "none";
+      break;
+    default:
+      basePrice = 0;
+      gestionSection.style.display = "none";
+      break;
+  }
+
+  if (requestType === "gestionOuverte" && rentBench) {
+    basePrice += 250;
+  }
+
+  estimatedPriceEl.textContent = basePrice > 0
+    ? `Prix estimatif : ${basePrice}€`
+    : "Prix estimatif : --";
 }
-</script>
+
+// Formulaire
+function handleForm(event) {
+  event.preventDefault();
+
+  const firstname = document.getElementById("firstname").value;
+  const lastname = document.getElementById("lastname").value;
+  const email = document.getElementById("email").value;
+  const brand = document.getElementById("brand").value;
+  const model = document.getElementById("model").value;
+  const requestTypeText = document.getElementById("requestType").selectedOptions[0].text;
+  const description = document.getElementById("description").value;
+
+  emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",
+    { firstname, lastname, email, brand, model, requestType: requestTypeText, description }
+  )
+  .then(() => {
+    closePopup();
+    document.getElementById("confirmationPopup").style.display = "flex";
+  })
+  .catch(() => { alert("Erreur lors de l'envoi du formulaire."); });
+}
+
+function openPopup() {
+  document.getElementById("popupForm").style.display = "flex";
+}
+
+function closePopup() {
+  document.getElementById("popupForm").style.display = "none";
+  document.getElementById("confirmationPopup").style.display = "none";
+}
+
 </head>
 
 <body>

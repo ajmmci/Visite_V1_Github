@@ -64,17 +64,20 @@ document.addEventListener("DOMContentLoaded", function() {
   
   form.addEventListener("submit", function(e) {
     e.preventDefault();
-    const data = {
-      firstname: document.getElementById("firstname").value,
-      lastname: document.getElementById("lastname").value,
-      email: document.getElementById("email").value,
-      brand: document.getElementById("brand").value,
-      model: document.getElementById("model").value,
-      requestType: requestType.selectedOptions[0].text,
-      description: document.getElementById("description").value
-    };
+   const data = {
+  firstname: document.getElementById("firstname").value,
+  lastname: document.getElementById("lastname").value,
+  email: document.getElementById("email").value,
+  brand: document.getElementById("brand").value,
+  model: document.getElementById("model").value,
+  requestType: requestType.selectedOptions[0].text,
+  description: document.getElementById("description").value,
+  gestionBrand: document.getElementById("gestionBrand") ? document.getElementById("gestionBrand").value : "",
+  rentBench: document.getElementById("rentBench") ? document.getElementById("rentBench").checked : false
+};
 
-    emailjs.send(service_bsoe5lw,template_y1s1oe6, data)
+
+    emailjs.send("service_bsoe5lw","template_y1s1oe6", data)
       .then(() => {
         closePopup();
         document.getElementById("confirmationPopup").style.display = "flex";
@@ -82,6 +85,7 @@ document.addEventListener("DOMContentLoaded", function() {
       .catch(() => { alert("Erreur lors de l'envoi du formulaire."); });
   });
 });
+
 
 
 

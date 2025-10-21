@@ -33,14 +33,48 @@ function openPopup(){document.getElementById("popupForm").style.display="flex";}
 function closePopup(){document.getElementById("popupForm").style.display="none";document.getElementById("confirmationPopup").style.display="none";}
 
 // Prix
-function updatePrice(){
-    const requestType=document.getElementById("requestType").value;
-    const rentBench=document.getElementById("rentBench")?.checked;
-    let price=parseInt(requestType)||0;
-    if(rentBench) price+=250;
-    document.getElementById("estimatedPrice").textContent=`Prix estimatif : ${price}€`;
-}
+function updatePrice() {
+  const requestType = document.getElementById("requestType").value;
+  const rentBench = document.getElementById("rentBench").checked;
+  const estimatedPriceEl = document.getElementById("estimatedPrice");
+  const gestionSection = document.getElementById("gestionOuverteOptions");
 
+  let basePrice = 0;
+
+  // Détermine le prix de base selon le type de demande
+  switch (requestType) {
+    case "gestionOuverte":
+      basePrice = 300;
+      gestionSection.style.display = "block";
+      break;
+    case "300":
+      basePrice = 300;
+      gestionSection.style.display = "none";
+      break;
+    case "150":
+      basePrice = 150;
+      gestionSection.style.display = "none";
+      break;
+    case "autre":
+      basePrice = 0;
+      gestionSection.style.display = "none";
+      break;
+    default:
+      basePrice = 0;
+      gestionSection.style.display = "none";
+      break;
+  }
+
+  // Ajoute le coût du banc si coché
+  if (rentBench && requestType === "gestionOuverte") {
+    basePrice += 250;
+  }
+
+  // Affiche le prix
+  estimatedPriceEl.textContent = basePrice > 0
+    ? `Prix estimatif : ${basePrice}€`
+    : `Prix estimatif : --`;
+}
 // Formulaire
 function handleForm(event){
     event.preventDefault();

@@ -42,7 +42,7 @@ function closePopupMS() {
 // Mise à jour du prix
 // Tableau des prix de base selon le type de demande
 const prices = {
-  "0": 300,       // Gestion ouverte
+  "gestionouverte": 300,       // Gestion ouverte
   "300": 300,     // Calculateur MS42/MS43
   "150": 150,     // Diagnostic
   "autre": 0      // Autre
@@ -56,7 +56,7 @@ function updatePrice() {
   const rentBenchCheckbox = document.getElementById("rentBench");
 
   // --- Gestion de l'affichage ---
-  if (requestType === "0") { // Gestion ouverte
+  if (requestType === "gestionouverte") { // Gestion ouverte
     gestionOuverteOptions.style.display = "block";
   } else {
     gestionOuverteOptions.style.display = "none";
@@ -107,3 +107,4 @@ function handleForm(event) {
         alert("Erreur lors de l'envoi du formulaire.");
     });
 }
+

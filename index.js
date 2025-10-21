@@ -60,31 +60,79 @@ document.addEventListener("DOMContentLoaded", function() {
   updatePrice();
 
   // Formulaire
-(function(){ emailjs.init("tj78crzPN0_rmmjFS"); })();
-  
+<!-- Remplace ton ancien script EmailJS par celui-ci -->
+<script type="module">
+import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+
+// Initialise EmailJS avec ton user ID
+emailjs.init('tj78crzPN0_rmmjFS');
+
+document.addEventListener("DOMContentLoaded", function() {
+  const requestType = document.getElementById("requestType");
+  const rentBench = document.getElementById("rentBench");
+  const gestionSection = document.getElementById("gestionOuverteOptions");
+  const estimatedPriceEl = document.getElementById("estimatedPrice");
+  const form = document.getElementById("requestForm");
+
+  // Mise à jour du prix estimatif
+  function updatePrice() {
+    const rt = requestType.value;
+    const rent = rentBench.checked;
+
+    if (!rt) {
+      gestionSection.style.display = "none";
+      estimatedPriceEl.textContent = "Prix estimatif : --";
+      return;
+    }
+
+    let basePrice = 0;
+    if (rt === "gestionOuverte") {
+      basePrice = 300;
+      gestionSection.style.display = "block";
+      if (rent) basePrice += 250;
+    } else if (rt === "300") basePrice = 300;
+    else if (rt === "150") basePrice = 150;
+    else basePrice = 0;
+
+    estimatedPriceEl.textContent = `Prix estimatif : ${basePrice > 0 ? basePrice + "€" : "--"}`;
+  }
+
+  requestType.addEventListener("change", updatePrice);
+  rentBench.addEventListener("change", updatePrice);
+  updatePrice();
+
+  // Envoi du formulaire
   form.addEventListener("submit", function(e) {
     e.preventDefault();
-   const data = {
-  firstname: document.getElementById("firstname").value,
-  lastname: document.getElementById("lastname").value,
-  email: document.getElementById("email").value,
-  brand: document.getElementById("brand").value,
-  model: document.getElementById("model").value,
-  requestType: requestType.selectedOptions[0].text,
-  description: document.getElementById("description").value,
-  gestionBrand: document.getElementById("gestionBrand") ? document.getElementById("gestionBrand").value : "",
-  rentBench: document.getElementById("rentBench") ? document.getElementById("rentBench").checked : false
-};
+    console.log("Formulaire soumis"); // Debug
 
+    const data = {
+      firstname: document.getElementById("firstname").value,
+      lastname: document.getElementById("lastname").value,
+      email: document.getElementById("email").value,
+      brand: document.getElementById("brand").value,
+      model: document.getElementById("model").value,
+      requestType: requestType.selectedOptions[0].text,
+      description: document.getElementById("description").value,
+      gestionBrand: document.getElementById("gestionBrand") ? document.getElementById("gestionBrand").value : "",
+      rentBench: document.getElementById("rentBench") ? document.getElementById("rentBench").checked : false
+    };
 
-    emailjs.send("service_bsoe5lw","template_y1s1oe6", data)
-      .then(() => {
+    // Envoi via EmailJS
+    emailjs.send("service_bsoe5lw", "template_y1s1oe6", data)
+      .then(response => {
+        console.log("Email envoyé avec succès !", response);
         closePopup();
         document.getElementById("confirmationPopup").style.display = "flex";
       })
-      .catch(() => { alert("Erreur lors de l'envoi du formulaire."); });
+      .catch(error => {
+        console.error("Erreur lors de l'envoi :", error);
+        alert("Erreur lors de l'envoi du formulaire.");
+      });
   });
 });
+</script>
+
 
 
 

@@ -16,8 +16,9 @@ function showHome() {
 function openPopup(){document.getElementById("popupForm").style.display="flex";}
 function closePopup(){document.getElementById("popupForm").style.display="none";document.getElementById("confirmationPopup").style.display="none";}
 
+// Pop-up MS
 function openPopupMS() {
-    document.getElementById("textPopupMS").style.display = "flex";
+   document.getElementById("textPopupMS").style.display = "flex";
 }
 
 function closePopupMS() {
@@ -79,5 +80,6 @@ document.addEventListener("DOMContentLoaded", function() {
       .catch(() => { alert("Erreur lors de l'envoi du formulaire."); });
   });
 });
+
 
 

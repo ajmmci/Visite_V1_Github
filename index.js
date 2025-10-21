@@ -1,35 +1,47 @@
-// Sections
+// ------------------ Sections ------------------
 function toggleSection(id) {
   const sections = ["about","services","Réalisation","fileservice","CGV"];
   const hero = document.getElementById("hero");
-  sections.forEach(sid => document.getElementById(sid).style.display = (sid === id) ? "block" : "none");
-  hero.style.display = "none";
+  sections.forEach(sid => {
+    const el = document.getElementById(sid);
+    if(el) el.style.display = (sid === id) ? "block" : "none";
+  });
+  if(hero) hero.style.display = "none";
 }
 
 function showHome() {
   const sections = ["about","services","Réalisation","fileservice","CGV"];
-  sections.forEach(sid => document.getElementById(sid).style.display = "none");
-  document.getElementById("hero").style.display = "block";
+  sections.forEach(sid => {
+    const el = document.getElementById(sid);
+    if(el) el.style.display = "none";
+  });
+  const hero = document.getElementById("hero");
+  if(hero) hero.style.display = "block";
 }
 
-// Pop-up
-function openPopup(){document.getElementById("popupForm").style.display="flex";}
-function closePopup(){document.getElementById("popupForm").style.display="none";document.getElementById("confirmationPopup").style.display="none";}
+// ------------------ Popups ------------------
+function openPopup(){ 
+  const popup = document.getElementById("popupForm");
+  if(popup) popup.style.display="flex";
+}
+function closePopup(){ 
+  const popup = document.getElementById("popupForm");
+  const confirm = document.getElementById("confirmationPopup");
+  if(popup) popup.style.display="none";
+  if(confirm) confirm.style.display="none";
+}
 
-// Pop-up MS
 function openPopupMS() {
-   document.getElementById("textPopupMS").style.display = "flex";
+   const popup = document.getElementById("textPopupMS");
+   if(popup) popup.style.display = "flex";
 }
 
 function closePopupMS() {
-    document.getElementById("textPopupMS").style.display = "none";
+    const popup = document.getElementById("textPopupMS");
+    if(popup) popup.style.display = "none";
 }
 
-// Module EmailJS (v4)
-import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
-emailjs.init('tj78crzPN0_rmmjFS');
-
-// DOMContentLoaded
+// ------------------ Prix et formulaire ------------------
 document.addEventListener("DOMContentLoaded", function() {
   const requestType = document.getElementById("requestType");
   const rentBench = document.getElementById("rentBench");
@@ -37,9 +49,14 @@ document.addEventListener("DOMContentLoaded", function() {
   const estimatedPriceEl = document.getElementById("estimatedPrice");
   const form = document.getElementById("requestForm");
 
+  // ------------------ Calcul prix ------------------
   function updatePrice() {
+    if(!requestType || !estimatedPriceEl || !gestionSection) return;
+
     const rt = requestType.value;
-    const rent = rentBench.checked;
+    const rent = rentBench ? rentBench.checked : false;
+
+    let basePrice = 0;
 
     if (!rt) {
       gestionSection.style.display = "none";
@@ -47,41 +64,51 @@ document.addEventListener("DOMContentLoaded", function() {
       return;
     }
 
-    let basePrice = 0;
-    if (rt === "gestionOuverte") {
+    if(rt === "gestionOuverte") {
       basePrice = 300;
       gestionSection.style.display = "block";
-      if (rent) basePrice += 250;
-    } else if (rt === "300") basePrice = 300;
-    else if (rt === "150") basePrice = 150;
+      if(rent) basePrice += 250;
+    } else if(rt === "300") basePrice = 300;
+    else if(rt === "150") basePrice = 150;
     else basePrice = 0;
 
     estimatedPriceEl.textContent = `Prix estimatif : ${basePrice > 0 ? basePrice + "€" : "--"}`;
   }
 
-  requestType.addEventListener("change", updatePrice);
-  rentBench.addEventListener("change", updatePrice);
+  if(requestType) requestType.addEventListener("change", updatePrice);
+  if(rentBench) rentBench.addEventListener("change", updatePrice);
   updatePrice();
 
-  form.addEventListener("submit", function(e) {
-    e.preventDefault();
-    const data = {
-      firstname: document.getElementById("firstname").value,
-      lastname: document.getElementById("lastname").value,
-      email: document.getElementById("email").value,
-      brand: document.getElementById("brand").value,
-      model: document.getElementById("model").value,
-      requestType: requestType.selectedOptions[0].text,
-      description: document.getElementById("description").value,
-      gestionBrand: document.getElementById("gestionBrand") ? document.getElementById("gestionBrand").value : "",
-      rentBench: document.getElementById("rentBench") ? document.getElementById("rentBench").checked : false
-    };
+  // ------------------ EmailJS ------------------
+  if(typeof emailjs !== "undefined") {
+    emailjs.init("tj78crzPN0_rmmjFS");
+  }
 
-    emailjs.send("service_bsoe5lw", "template_y1s1oe6", data)
-      .then(() => {
-        closePopup();
-        document.getElementById("confirmationPopup").style.display = "flex";
-      })
-      .catch(() => { alert("Erreur lors de l'envoi du formulaire."); });
-  });
+  if(form) {
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+
+      const data = {
+        firstname: document.getElementById("firstname")?.value || "",
+        lastname: document.getElementById("lastname")?.value || "",
+        email: document.getElementById("email")?.value || "",
+        brand: document.getElementById("brand")?.value || "",
+        model: document.getElementById("model")?.value || "",
+        requestType: requestType?.selectedOptions[0].text || "",
+        description: document.getElementById("description")?.value || "",
+        gestionBrand: document.getElementById("gestionBrand")?.value || "",
+        rentBench: rentBench ? rentBench.checked : false
+      };
+
+      emailjs.send("service_bsoe5lw","template_y1s1oe6", data)
+        .then(() => {
+          closePopup();
+          const confirm = document.getElementById("confirmationPopup");
+          if(confirm) confirm.style.display = "flex";
+        })
+        .catch(() => {
+          alert("Erreur lors de l'envoi du formulaire.");
+        });
+    });
+  }
 });

@@ -42,30 +42,64 @@ function closePopupMS() {
 // Mise à jour du prix
 // Tableau des prix de base selon le type de demande
 
-// Fonction principale
+// Fonction pour mettre à jour le prix estimatif
 function updatePrice() {
   const requestType = document.getElementById("requestType").value;
+  const rentBench = document.getElementById("rentBench").checked;
+  let price = 0;
 
-  const gestionOuverteOptions = document.getElementById("gestionOuverteOptions");
-  const rentBenchCheckbox = document.getElementById("rentBench");
-
-  // --- Gestion de l'affichage ---
-  if (requestType === "gestionouverte") { // Gestion ouverte
-    gestionOuverteOptions.style.display = "block";
-  } else {
-    gestionOuverteOptions.style.display = "none";
-    if (rentBenchCheckbox) rentBenchCheckbox.checked = false; // Désélectionner si masqué
+  // Définition du prix de base selon le type de demande
+  switch (requestType) {
+    case "gestionOuverte":
+      price = 300;
+      break;
+    case "MS42MS43":
+      price = 300;
+      break;
+    case "diagnostic":
+      price = 150;
+      break;
+    case "autre":
+      price = 0;
+      break;
+    default:
+      price = 0;
   }
 
-  // --- Calcul du prix ---
-  let price = prices[requestType] || 0; // Prix de base selon la sélection
-  if (rentBenchCheckbox && rentBenchCheckbox.checked) {
-    price += 250; // Ajout du prix du banc si coché
+  // Ajout du coût de la location du banc si sélectionnée
+  if (rentBench) {
+    price += 250;
   }
 
-  // --- Affichage du prix estimatif ---
+  // Affichage du prix estimatif
   document.getElementById("estimatedPrice").textContent = `Prix estimatif : ${price}€`;
 }
+
+// Fonction pour afficher ou masquer la section "gestion ouverte"
+function toggleGestionOuverte() {
+  const gestionOuverteSection = document.getElementById("gestionOuverteOptions");
+  const requestType = document.getElementById("requestType").value;
+
+  if (requestType === "gestionOuverte") {
+    gestionOuverteSection.style.display = "block";
+  } else {
+    gestionOuverteSection.style.display = "none";
+  }
+}
+
+// Ajout d'écouteurs d'événements pour mettre à jour le prix et afficher/masquer la section "gestion ouverte"
+document.getElementById("requestType").addEventListener("change", () => {
+  updatePrice();
+  toggleGestionOuverte();
+});
+
+document.getElementById("rentBench").addEventListener("change", updatePrice);
+
+// Initialisation
+document.addEventListener("DOMContentLoaded", () => {
+  updatePrice();
+  toggleGestionOuverte();
+});
 
 // --- Cacher la section au chargement ---
 window.addEventListener("DOMContentLoaded", () => {
@@ -101,5 +135,6 @@ function handleForm(event) {
         alert("Erreur lors de l'envoi du formulaire.");
     });
 }
+
 
 

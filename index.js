@@ -60,6 +60,8 @@ document.addEventListener("DOMContentLoaded", function() {
   updatePrice();
 
   // Formulaire
+(function(){ emailjs.init("tj78crzPN0_rmmjFS"); })();
+  
   form.addEventListener("submit", function(e) {
     e.preventDefault();
     const data = {
@@ -80,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function() {
       .catch(() => { alert("Erreur lors de l'envoi du formulaire."); });
   });
 });
+
 
 
 

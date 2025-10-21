@@ -16,6 +16,14 @@ function showHome() {
 function openPopup(){document.getElementById("popupForm").style.display="flex";}
 function closePopup(){document.getElementById("popupForm").style.display="none";document.getElementById("confirmationPopup").style.display="none";}
 
+function openPopupMS() {
+    document.getElementById("textPopupMS").style.display = "flex";
+}
+
+function closePopupMS() {
+    document.getElementById("textPopupMS").style.display = "none";
+}
+
 // Prix et formulaire
 document.addEventListener("DOMContentLoaded", function() {
   const requestType = document.getElementById("requestType");
@@ -71,4 +79,5 @@ document.addEventListener("DOMContentLoaded", function() {
       .catch(() => { alert("Erreur lors de l'envoi du formulaire."); });
   });
 });
+
 

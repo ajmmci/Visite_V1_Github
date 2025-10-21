@@ -33,6 +33,15 @@ function closePopup(){document.getElementById("popupForm").style.display="none";
 
 // Prix
 
+  function updatePrice(){
+    const requestType=document.getElementById("requestType").value;
+    const rentBench=document.getElementById("rentBench")?.checked;
+    let price=parseInt(requestType)||0;
+    if(rentBench) price+=250;
+    document.getElementById("estimatedPrice").textContent=`Prix estimatif : ${price}€`;
+
+
+  
 // Formulaire
 function handleForm(event){
     event.preventDefault();

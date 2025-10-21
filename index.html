@@ -6,22 +6,15 @@
 <title>AJM Service</title>
 <link rel="stylesheet" href="styles.css">
 
-<!-- EmailJS -->
+<!-- EmailJS SDK -->
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-
-<!-- JS -->
 <script src="index.js" defer></script>
-<script>
-  // Initialise EmailJS
-  emailjs.init("tj78crzPN0_rmmjFS");
-</script>
 </head>
-
 <body>
+
 <header>
   <div class="logo" onclick="showHome()">
-    <img src="https://i.ibb.co/0p6wZMf7/SCREEN-4.jpg" alt="Logo AJM Tune">
-     Service
+    <img src="https://i.ibb.co/0p6wZMf7/SCREEN-4.jpg" alt="Logo AJM Tune"> Service
   </div>
   <nav>
     <ul>
@@ -49,20 +42,12 @@
   </ul>
 
   <!-- Pop-up MS -->
-  <div id="textPopupMS" class="popup">
+  <div id="textPopupMS" class="popup" style="display:none;">
     <div class="popup-content">
       <span class="close-btn" onclick="closePopupMS()">&times;</span>
       <h3>ECU Siemens MS42/MS43 – ImmoOff</h3>
-      <p style="text-align:center; font-size:0.9em;">(trouvé sur BMW M52TU et M54)</p>
+      <p>(trouvé sur BMW M52TU et M54)</p>
       <p>Pour votre véhicule swapé grâce à la <strong>désactivation de l’anti-démarrage (Immo)</strong></p>
-      <p>Nous intervenons sur un <strong>ECU fourni par vos soins</strong> ou sur un <strong>ECU acheté et vérifié en interne</strong>.</p>
-      <ul>
-        <li>Calibration injecteurs</li>
-        <li>Décalage rupteur / Hardcut</li>
-        <li>Optimisation pour E85</li>
-        <li>Désactivation SAP - Sondes catalyseurs secondaires</li>
-      </ul>
-      <p>Intervention sur banc ou directement sur le véhicule, selon la configuration.</p>
     </div>
   </div>
 </section>
@@ -75,83 +60,44 @@
 </section>
 
 <!-- Pop-up Formulaire -->
-<div id="popupForm" class="popup">
+<div id="popupForm" class="popup" style="display:none;">
   <div class="popup-content">
     <span class="close-btn" onclick="closePopup()">&times;</span>
     <h3>Formulaire de Demande</h3>
     <form id="requestForm">
-      <div class="form-group">
-        <label for="firstname">Prénom :</label>
-        <input type="text" id="firstname" name="firstname" required>
-      </div>
-      <div class="form-group">
-        <label for="lastname">Nom :</label>
-        <input type="text" id="lastname" name="lastname" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email :</label>
-        <input type="email" id="email" name="email" required>
-      </div>
-      <div class="form-group">
-        <label for="brand">Marque :</label>
-        <input type="text" id="brand" name="brand" required>
-      </div>
-      <div class="form-group">
-        <label for="model">Modèle :</label>
-        <input type="text" id="model" name="model" required>
-      </div>
-      <div class="form-group">
-        <label for="requestType">Type de demande :</label>
-        <select id="requestType" name="requestType" required>
-          <option value="" selected>Choisissez une option</option>
-          <option value="gestionOuverte">Cartographie Gestion ouverte (300€)</option>
-          <option value="300">Calculateur MS42/MS43 (300€)</option>
-          <option value="150">Diagnostic (150€)</option>
-          <option value="autre">Autre (0€)</option>
-        </select>
+      <input type="text" id="firstname" placeholder="Prénom" required>
+      <input type="text" id="lastname" placeholder="Nom" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="text" id="brand" placeholder="Marque" required>
+      <input type="text" id="model" placeholder="Modèle" required>
+
+      <select id="requestType" required>
+        <option value="" selected>Choisissez une option</option>
+        <option value="gestionOuverte">Cartographie Gestion ouverte (300€)</option>
+        <option value="300">Calculateur MS42/MS43 (300€)</option>
+        <option value="150">Diagnostic (150€)</option>
+        <option value="autre">Autre (0€)</option>
+      </select>
+
+      <div id="gestionOuverteOptions" style="display:none;">
+        <input type="text" id="gestionBrand" placeholder="Marque gestion ouverte">
+        <label><input type="checkbox" id="rentBench"> Location du banc (+250€)</label>
       </div>
 
-      <!-- Gestion ouverte -->
-      <div id="gestionOuverteOptions" class="gestion-section" style="display:none;">
-        <div class="form-group">
-          <label for="gestionBrand">Marque de la gestion ouverte :</label>
-          <input type="text" id="gestionBrand" name="gestionBrand" placeholder="Ex : MaxxEcu, Link, Motorsport Electronics, K-Data">
-        </div>
-        <div class="checkbox-group">
-          <label>
-            <input type="checkbox" id="rentBench" name="rentBench">
-            Souhaitez-vous la location du banc ? (+250€)
-          </label>
-          <small class="note">1/2 journée sur Valence (26)</small>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="description">Description :</label>
-        <textarea id="description" name="description" rows="4" required></textarea>
-      </div>
-
-      <p id="estimatedPrice" class="price-display">Prix estimatif : --</p>
-
-      <div class="terms">
-        <label>
-          <input type="checkbox" id="acceptTerms" required>
-          Je comprends et accepte les <a href="#" onclick="toggleSection('CGV')">CGV</a>.
-        </label>
-      </div>
-
+      <textarea id="description" placeholder="Description" required></textarea>
+      <p id="estimatedPrice">Prix estimatif : --</p>
+      <label><input type="checkbox" id="acceptTerms" required> J'accepte les CGV</label>
       <button type="submit">Envoyer la demande</button>
-      <p class="info-note">* Les prix affichés sont donnés à titre indicatif et peuvent varier.</p>
     </form>
   </div>
 </div>
 
 <!-- Confirmation Pop-up -->
-<div id="confirmationPopup" class="popup">
+<div id="confirmationPopup" class="popup" style="display:none;">
   <div class="popup-content">
     <span class="close-btn" onclick="closePopup()">&times;</span>
     <h3>Demande envoyée !</h3>
-    <p>Votre demande a bien été envoyée. Nous vous contacterons sous peu.</p>
+    <p>Votre demande a bien été envoyée.</p>
   </div>
 </div>
 
@@ -161,22 +107,17 @@
 </section>
 
 <section id="CGV" style="display:none;">
-  <!-- CGV ici (ton contenu actuel) -->
+  <h1>CGV</h1>
+  <p>Conditions générales de vente...</p>
 </section>
 
 <section id="Réalisation" style="display:none;">
-  <h2>Voici nos réalisations</h2>
-  <a href="https://www.instagram.com/ajm_tune" target="_blank">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" style="width:50px;height:50px;">
-  </a>
-  <p>Insta : ajm_tune</p>
+  <h2>Nos réalisations</h2>
 </section>
 
 <footer>
-  <p>© 2025 AJM Service - Tous droits réservés</p>
-  <a href="mailto:ajmmciservice@gmail.com" style="color:#fff;text-decoration:none;" 
-     onmouseover="this.style.color='#ff9900'" onmouseout="this.style.color='#ffffff'">Contact</a>
-  <p>By : AJM Service</p>
+  <p>© 2025 AJM Service</p>
 </footer>
+
 </body>
 </html>

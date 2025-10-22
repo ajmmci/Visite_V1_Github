@@ -37,11 +37,15 @@
 <section id="services" style="display:none;">
   <h2>Nos Services</h2>
   <ul>
-    <li>Diagnostic moteur</li>
-    <li>Réglage gestion ouverte</li>
+    
+    <li><a href="#" onclick="openPopupGO()">Réglage gestion ouverte / Calibration moteur</a></li>
+
     <li>Installation ECU programmable</li>
+    
     <li>Vente de pièces performances</li>
-    <li>Fabrication de cartographie de démarrage</li>
+    
+    <li>Diagnostic moteur</li>
+    
     <li><a href="#" onclick="openPopupMS()">Ecu Siemens MS42/MS43 ImmoOff</a></li>
   </ul>
 
@@ -60,6 +64,20 @@
         <li>Désactivation SAP - Sondes catalyseurs secondaires</li>
       </ul>
       <p>Intervention sur banc ou directement sur le véhicule, selon la configuration.</p>
+    </div>
+  </div>
+
+   <div id="textPopupGO" class="popup">
+    <div class="popup-content">
+      <span class="close-btn" onclick="closePopupGO()">&times;</span>
+      <h3>Réglage gestion ouverte / Calibration moteur</h3>
+      <p style="text-align:center; font-size:0.9em;">KDFI, MaxxECU, LinkEcu, Motorsport Electronics...</p>
+      <p>Le travail peut aller d’une simple cartographie de démarrage à un accompagnement complet avec suivi du véhicule lors de ses premiers roulages sur piste.</p>
+      <p>Les prestations comprennent l’ajustement des tables de carburant et d’allumage, la gestion du boost, ainsi que la configuration des fonctions avancées (antilag, launch control, corrections par température, etc.).</p>
+      <p>Chaque calibration est adaptée au montage et à l’utilisation du véhicule, avec une analyse de logs permettant d’affiner les réglages et d’assurer un fonctionnement <strong>fiable et cohérent</strong>.</p>
+      <ul>
+        
+      <p>Intervention sur banc ou sur piste.</p>
     </div>
   </div>
 </section>

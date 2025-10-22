@@ -25,6 +25,15 @@ function closePopupMS() {
     document.getElementById("textPopupMS").style.display = "none";
 }
 
+// Pop-up GO
+function openPopupGO() {
+   document.getElementById("textPopupGO").style.display = "flex";
+}
+
+function closePopupGO() {
+    document.getElementById("textPopupGO").style.display = "none";
+}
+
 // Prix et formulaire
 document.addEventListener("DOMContentLoaded", function() {
   const requestType = document.getElementById("requestType");
@@ -85,6 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
       .catch(() => { alert("Erreur lors de l'envoi du formulaire."); });
   });
 });
+
 
 
 
